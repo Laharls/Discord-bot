@@ -1,0 +1,9 @@
+# Ignore __pycache__ folders
+__pycache__/
+
+# Ignore .env file
+.env
+
+# Ignore template_cog.py and mongoTest.py files
+template_cog.py
+mongoTest.py

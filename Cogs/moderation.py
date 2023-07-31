@@ -81,5 +81,37 @@ class Moderation(commands.Cog):
     member.ban(delete_message_days=7, reason= None if reason is None else reason)
     await interaction.response.send_message(f"The member {member.name} has been bannned from the guild")
 
+  @app_commands.command(name="add_role", description="Add a role to an user")
+  @commands.has_permissions(manage_roles=True)
+  async def add_role(self, interaction: Interaction, user:str, role:str):
+     add_role = utils.get(interaction.guild.roles, name=role)
+     add_to_user = interaction.guild.get_member_named(user)
+
+     if add_role is None:
+        await interaction.response.send_message("There is no input for the role to add")
+
+     if add_to_user is None:
+        await interaction.response.send_message("There is no such user on the guild")
+        return
+     
+     await add_to_user.add_roles(add_role)
+     await interaction.response.send_message(f"The role {role} has been attributed")
+
+  @app_commands.command(name="remove_role", description="Remove the role of an user")
+  @commands.has_permissions(manage_roles=True)
+  async def remove_role(self, interaction: Interaction, user:str, role:str):
+     add_role = utils.get(interaction.guild.roles, name=role)
+     add_to_user = interaction.guild.get_member_named(user)
+
+     if add_role is None:
+        await interaction.response.send_message("There is no input for the role to add")
+
+     if add_to_user is None:
+        await interaction.response.send_message("There is no such user on the guild")
+        return
+
+     await add_to_user.remove_roles(add_role)
+     await interaction.response.send_message(f"The role {role} has been removed")
+
 async def setup(bot: commands.Bot) -> None:
   await bot.add_cog(Moderation(bot))
