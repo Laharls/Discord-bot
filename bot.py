@@ -39,4 +39,15 @@ async def on_member_remove(member):
     if channel and channel.permissions_for(guild.me).send_messages:
         await channel.send(f"{member.mention} has left the server")
 
+@bot.tree.command(name="get_user_pp", description="Get the profile picture of a member")
+async def get_profile_picture(interaction: Interaction, user:str):
+    member = interaction.guild.get_member_named(user)
+
+    if member is None:
+        await interaction.response.send_message("There is no such user on the guild")
+        return
+
+    await interaction.response.send_message(member.display_avatar)
+
+
 bot.run(TOKEN)
