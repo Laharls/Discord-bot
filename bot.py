@@ -1,12 +1,9 @@
 import os
 
-from discord import Intents, utils, Interaction, File
+from discord import Intents, utils
 from dotenv import load_dotenv
 from discord.ext import commands
 from Cogs import moderation, poll, invitation_guild, profile_picture
-
-from PIL import Image, ImageDraw, ImageFont
-import io
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -30,10 +27,8 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     guild = member.guild
-    channel = utils.get(guild.channels, name="bienvenue")
-
-    if channel and channel.permissions_for(guild.me).send_messages:
-        await channel.send(f"Welcome {member.mention} to the server {guild.name}")
+    if guild.system_channel is not None:
+        await guild.system_channel.send(f"Welcome {member.mention} to the server {guild.name}")
 
 @bot.event
 async def on_member_remove(member):
